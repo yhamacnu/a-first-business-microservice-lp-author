@@ -20,12 +20,10 @@ jobs:
     steps:
     - uses: actions/checkout@v7
       
-    - name: Install apt-get packages
+    - name: Install required packages
       run: |
-        echo RESET grub-efi/install_devices | sudo debconf-communicate grub-pc
-        sudo ACCEPT_EULA=Y apt-get update
-        sudo ACCEPT_EULA=Y apt-get upgrade
-        sudo apt-get install wget git curl software-properties-common build-essential
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends curl build-essential
     
     - name: Install Rust target for wasm
       run: |
