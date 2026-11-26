@@ -22,9 +22,9 @@ jobs:
       
     - name: Install apt-get packages
       run: |
-        sudo ACCEPT_EULA=Y apt-get update
-        sudo ACCEPT_EULA=Y apt-get upgrade
-        sudo apt-get install wget git curl software-properties-common build-essential
+        sudo ACCEPT_EULA=Y apt-get -y update
+        sudo ACCEPT_EULA=Y apt-get -y upgrade
+        sudo apt-get -y install wget git curl software-properties-common build-essential
     
     - name: Install Rust target for wasm
       run: |
