@@ -20,14 +20,16 @@ jobs:
     steps:
     - uses: actions/checkout@v7
       
-    - name: Install required packages
+    - name: Install apt-get packages
       run: |
-        sudo apt-get update
-        sudo apt-get install -y --no-install-recommends curl build-essential
+        # echo RESET grub-efi/install_devices | sudo debconf-communicate grub-pc
+        sudo ACCEPT_EULA=Y apt-get update
+        sudo ACCEPT_EULA=Y apt-get upgrade
+        sudo apt-get install wget git curl software-properties-common build-essential
     
     - name: Install Rust target for wasm
       run: |
-        rustup target add wasm32-wasi
+        rustup target add wasm32-wasip1
         
     - name: Install WasmEdge
       run: |
@@ -36,8 +38,8 @@ jobs:
     
     - name: microservice
       run: |
-        cargo build --target wasm32-wasi --release
-        wasmedgec target/wasm32-wasi/release/sales_tax_rate_lookup.wasm sales_tax_rate_lookup.wasm
+        cargo build --target wasm32-wasip1 --release
+        wasmedgec target/wasm32-wasip1/release/sales_tax_rate_lookup.wasm sales_tax_rate_lookup.wasm
         nohup wasmedge sales_tax_rate_lookup.wasm &
         echo $! > wasmedge.pid
         sleep 15
