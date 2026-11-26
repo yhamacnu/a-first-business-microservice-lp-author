@@ -30,7 +30,7 @@ async fn handle_request(req: Request<Body>) -> Result<Response<Body>, anyhow::Er
             }
             if rate != "" {
                 Ok(Response::new(Body::from(rate)))
-            } else {
+            } else { // Return the 404 Not Found for non-existent rates.
                 let mut response = Response::default();
                 *response.status_mut() = StatusCode::NOT_FOUND;
                 Ok(response)
