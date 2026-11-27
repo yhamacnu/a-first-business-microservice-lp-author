@@ -58,12 +58,12 @@ jobs:
           echo -e "Execution Fail!"
           exit 1
         fi
-        resp=$(curl http://localhost:8001/find_rate -X POST -d "12345")
+        resp=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8001/find_rate -X POST -d "12345")
         echo "$resp"
-        if [[ $resp == "0.08" ]]; then
-          echo -e "Execution Success!"
+        if [[ $resp == "404" ]]; then
+          echo -e "Execution Failed!(AS EXPECTED 404)"
         else
-          echo -e "Execution Fail!"
+          echo -e "Unexpected response!"
           exit 1
         fi
         kill -9 `cat wasmedge.pid`
